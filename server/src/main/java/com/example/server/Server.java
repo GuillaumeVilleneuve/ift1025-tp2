@@ -94,7 +94,6 @@ public class Server {
         String line;
 
         if ((line = this.objectInputStream.readObject().toString()) != null) {
-            System.out.println(line);
             Pair<String, String> parts = processCommandLine(line);
             String cmd = parts.getKey();
             String arg = parts.getValue();
@@ -157,7 +156,7 @@ public class Server {
 
         // filter courses based on the semester
         try {
-            Scanner scan = new Scanner(new File("com/example/server/data/cours.txt"));
+            Scanner scan = new Scanner(new File("server/src/main/java/com/example/server/data/cours.txt"));
             ArrayList<Course> courses = new ArrayList<>();
 
             while (scan.hasNext()) {
@@ -211,7 +210,7 @@ public class Server {
                     registrationForm.getEmail();
 
             // write content to inscription.txt
-            FileWriter fw = new FileWriter("com/example/server/data/inscription.txt", true);
+            FileWriter fw = new FileWriter("server/src/main/java/com/example/server/data/inscription.txt", true);
             BufferedWriter writer = new BufferedWriter(fw);
             writer.write(inscription);
             writer.write("\n");

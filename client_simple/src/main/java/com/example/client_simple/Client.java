@@ -59,7 +59,7 @@ public class Client {
 
             Scanner scanner = new Scanner(System.in);
             String userInput = scanner.nextLine();
-            System.out.println("> Choix: " + cmd);
+            System.out.println("> Choix: " + userInput);
 
             switch (userInput) {
                 case "1": {
@@ -91,54 +91,40 @@ public class Client {
         cmd = Server.LOAD_COMMAND;
 
         // the user can enter either enter the semesters name or the corresponding number (1, 2 or 3)
-        if (cmd.equalsIgnoreCase("Automne")) {
+        if (userInput.equalsIgnoreCase("Automne")) {
             userInput = "1";
-        }   else if (cmd.equalsIgnoreCase("Hiver")) {
+        }   else if (userInput.equalsIgnoreCase("Hiver")) {
             userInput = "2";
-        }   else if (cmd.equalsIgnoreCase("Ete")) {
+        }   else if (userInput.equalsIgnoreCase("Ete")) {
             userInput = "3";
-        }   else if (cmd.equalsIgnoreCase("Été")) {
+        }   else if (userInput.equalsIgnoreCase("Été")) {
             userInput = "3";
         }
 
         System.out.println("> Choix: " + userInput);
 
+
         switch (userInput) {
-
             case "1":
-                args = " Automne";
-
-                try {
-                    objectOutputStream.writeObject(cmd + " " + args);
-                    objectOutputStream.flush();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                args = "Automne";
                 break;
-
             case "2":
-                args = " Hiver";
-
-                try {
-                    objectOutputStream.writeObject(cmd + " " + args);
-                    objectOutputStream.flush();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                args = "Hiver";
                 break;
-
             case "3":
-                args = " Ete";
-
-                try {
-                    objectOutputStream.writeObject(cmd + " " + args);
-                    objectOutputStream.flush();
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
+                args = "Ete";
                 break;
             default:
-                System.out.println("invalid choice of semester");
+                System.out.println("choix invalide de semestre");
+        }
+
+        if (args != null) {
+            try {
+                objectOutputStream.writeObject(cmd + " " + args);
+                objectOutputStream.flush();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
 
         getAvailableCourses();
@@ -148,12 +134,12 @@ public class Client {
     public void getAvailableCourses() {
 
         // send command to server
-        try {
+        /*try {
             objectOutputStream.writeObject(Server.LOAD_COMMAND);
             objectOutputStream.flush();
         } catch (IOException e) {
             throw new RuntimeException(e);
-        }
+        }*/
 
         // get Course object
 
@@ -244,9 +230,7 @@ public class Client {
             try {
                 String confirmationMessage = (String) objectInputStream.readObject();
                 System.out.println(confirmationMessage);
-            } catch (IOException e) {
-                throw new RuntimeException(e);
-            } catch (ClassNotFoundException e) {
+            } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
