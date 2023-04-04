@@ -1,0 +1,5 @@
+Automne	IFT1015	VILJ08069901	Villeneuve	Justin	villeneuve_99@hotmail.com
+Hiver	IFT1025	VILJ083432	Villeneuve	Gui	gui_97@hotmail.com
+Automne	IFT1015	MAJ34243	Major	Francois	major67@gmail.com
+Automne	IFT1015	DUF68546	Dufour	Linda	lind89@umontreal.ca
+Automne	IFT1015	1125932	Hughes	Quinn	QHughes@gmail.com
