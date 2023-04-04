@@ -10,7 +10,7 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Maven: com.example:server:1.0" level="project" />
+    <orderEntry type="module" module-name="server" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:19" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-fxml:mac-aarch64:19" level="project" />
     <orderEntry type="library" name="Maven: org.openjfx:javafx-controls:19" level="project" />
