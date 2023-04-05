@@ -19,10 +19,9 @@ public class Client {
     private ObjectOutputStream objectOutputStream;
 
     private ObjectInputStream objectInputStream;
-//    private CmdAndArgs cmdAndArgs = new CmdAndArgs();    // command and arguments object sent to server
-    static ArrayList<Course> courses = null;
-    String cmd;
-    String args;
+    private static ArrayList<Course> courses = null;
+    private String cmd;
+    private String args;
 
 
 
@@ -82,41 +81,49 @@ public class Client {
     // menu that displays the courses
     public void displayCoursesMenu() {
 
-        Scanner scanner = new Scanner(System.in);
+        boolean invalidChoice;
 
-        System.out.println("Veuillez choisir la session pour laquelle vous voulez consulter la liste des cours");
-        System.out.println("1. Automne \n2. Hiver \n3. Ete");
+        do {
+            invalidChoice = false;
+            
+            Scanner scanner = new Scanner(System.in);
 
-        String userInput = scanner.nextLine();
-        cmd = Server.LOAD_COMMAND;
+            System.out.println("Veuillez choisir la session pour laquelle vous voulez consulter la liste des cours");
+            System.out.println("1. Automne \n2. Hiver \n3. Ete");
 
-        // the user can enter either enter the semesters name or the corresponding number (1, 2 or 3)
-        if (userInput.equalsIgnoreCase("Automne")) {
-            userInput = "1";
-        }   else if (userInput.equalsIgnoreCase("Hiver")) {
-            userInput = "2";
-        }   else if (userInput.equalsIgnoreCase("Ete")) {
-            userInput = "3";
-        }   else if (userInput.equalsIgnoreCase("Été")) {
-            userInput = "3";
-        }
+            String userInput = scanner.nextLine();
+            cmd = Server.LOAD_COMMAND;
 
-        System.out.println("> Choix: " + userInput);
+            // the user can enter either enter the semesters name or the corresponding number (1, 2 or 3)
+            if (userInput.equalsIgnoreCase("Automne")) {
+                userInput = "1";
+            }   else if (userInput.equalsIgnoreCase("Hiver")) {
+                userInput = "2";
+            }   else if (userInput.equalsIgnoreCase("Ete")) {
+                userInput = "3";
+            }   else if (userInput.equalsIgnoreCase("Été")) {
+                userInput = "3";
+            }
+
+            System.out.println("> Choix: " + userInput);
 
 
-        switch (userInput) {
-            case "1":
-                args = "Automne";
-                break;
-            case "2":
-                args = "Hiver";
-                break;
-            case "3":
-                args = "Ete";
-                break;
-            default:
-                System.out.println("choix invalide de semestre");
-        }
+            switch (userInput) {
+                case "1":
+                    args = "Automne";
+                    break;
+                case "2":
+                    args = "Hiver";
+                    break;
+                case "3":
+                    args = "Ete";
+                    break;
+                default:
+                    System.out.println("Choix invalide de semestre. Choisissez parmi les 3 choix disponibles.");
+                    invalidChoice = true;
+            }
+        } while (invalidChoice);
+        
 
         if (args != null) {
             try {
@@ -132,16 +139,6 @@ public class Client {
     }
 
     public void getAvailableCourses() {
-
-        // send command to server
-        /*try {
-            objectOutputStream.writeObject(Server.LOAD_COMMAND);
-            objectOutputStream.flush();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }*/
-
-        // get Course object
 
         try {
             this.courses = (ArrayList<Course>) objectInputStream.readObject();

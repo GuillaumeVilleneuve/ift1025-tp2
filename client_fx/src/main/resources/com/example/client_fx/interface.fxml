@@ -35,12 +35,20 @@
                                     </Text>
                                     <HBox alignment="CENTER" prefHeight="30.0" prefWidth="268.0" spacing="50.0">
                                        <children>
-                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Code" />
+                                          <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Code">
+                                             <HBox.margin>
+                                                <Insets right="5.0" />
+                                             </HBox.margin></Text>
                                           <Separator orientation="VERTICAL" prefHeight="200.0" />
                                           <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Cours" />
                                        </children>
                                     </HBox>
-                                    <ListView prefHeight="200.0" prefWidth="200.0" />
+                                    <HBox prefHeight="239.0" prefWidth="268.0">
+                                       <children>
+                                          <ListView fx:id="listView1" prefHeight="200.0" prefWidth="200.0" />
+                                          <ListView fx:id="listView2" prefHeight="200.0" prefWidth="200.0" />
+                                       </children>
+                                    </HBox>
                                  </children>
                               </VBox>
                            </children>
@@ -49,12 +57,12 @@
                            <children>
                               <HBox prefHeight="100.0" prefWidth="200.0" spacing="35.0">
                                  <children>
-                                    <ChoiceBox prefHeight="26.0" prefWidth="64.0">
+                                    <ChoiceBox fx:id="choiceBox" minWidth="-Infinity" prefHeight="26.0" prefWidth="85.0">
                                        <HBox.margin>
                                           <Insets />
                                        </HBox.margin>
                                     </ChoiceBox>
-                                    <Button fx:id="buttonCharger" mnemonicParsing="false" prefHeight="26.0" prefWidth="156.0" text="charger" />
+                                    <Button fx:id="buttonCharger" minWidth="-Infinity" mnemonicParsing="false" onAction="#buttonChargerClicked" prefHeight="26.0" prefWidth="85.0" text="charger" />
                                  </children>
                                  <padding>
                                     <Insets left="50.0" top="15.0" />
@@ -98,7 +106,7 @@
                               <Insets bottom="15.0" />
                            </VBox.margin>
                         </TextField>
-                        <Button fx:id="buttonInscription" mnemonicParsing="false" text="Button" />
+                        <Button fx:id="buttonInscription" mnemonicParsing="false" onAction="#buttonInscriptionClicked" text="Button" />
                      </children>
                   </VBox>
                </children>

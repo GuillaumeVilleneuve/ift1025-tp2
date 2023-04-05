@@ -6,7 +6,9 @@ public class GUILauncher {
     public final static int PORT = 1337;
     public static void main(String[] args) {
         try {
-            GUI.run();
+            Model model = new Model(PORT);
+            model.run();
+            GUIView.run();
         } catch (IOException e) {
             e.printStackTrace();
         }

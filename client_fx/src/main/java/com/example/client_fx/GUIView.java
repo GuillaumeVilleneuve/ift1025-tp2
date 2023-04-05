@@ -7,7 +7,7 @@ import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
-public class GUI extends Application {
+public class GUIView extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interface.fxml"));
@@ -20,6 +20,7 @@ public class GUI extends Application {
 
         stage.show();
     }
+
 
     public static void run() throws IOException {
         launch();
