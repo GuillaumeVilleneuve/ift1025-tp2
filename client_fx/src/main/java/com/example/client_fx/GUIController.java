@@ -46,6 +46,11 @@ public class GUIController implements Initializable {
         }
     }
 
+    @Override
+    public void initialize(URL url, ResourceBundle resourceBundle){
+        choiceBox.getItems().addAll(semesters);
+    }
+
     public void buttonChargerClicked(ActionEvent e) {
 
         listView.getItems().clear();
@@ -64,6 +69,7 @@ public class GUIController implements Initializable {
 
     public void buttonInscriptionClicked(ActionEvent e) {
 
+        // get info entered by user
         String firstName = this.textFieldFirstName.getText();
         String lastName = this.textFieldLastName.getText();
         String email = this.textFieldEmail.getText();
@@ -82,9 +88,12 @@ public class GUIController implements Initializable {
             }
         }
 
+        // create and send registration form to model
         registrationForm = new RegistrationForm(firstName, lastName, email, matricule, courseFound); //    TODO add course code
-
         model.registerForCourses(registrationForm);
+
+        // show confirmation message alert
+        printConfirmationMessage();
     }
 
     // returns the semester choice selected by the user from the choice box
@@ -92,24 +101,15 @@ public class GUIController implements Initializable {
         return this.choiceBox.getValue();
     }
 
-
-    @Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
-        choiceBox.getItems().addAll(semesters);
-
-        /*listView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<String>() {
-            @Override
-            public void changed(ObservableValue<? extends String> observable, String oldValue, String newValue) {
-                currentSelection = listView.getSelectionModel().getSelectedItem();
-            }
-        });*/
+    public void printConfirmationMessage() {
+        model.setConfirmationMessage();
+        Alert alert = new Alert(Alert.AlertType.INFORMATION);
+        alert.setTitle("Confirmation d'inscription");
+        alert.setContentText(model.getConfirmationMessage());
+        alert.setHeaderText("Information sur votre confirmation d'inscription");
+        alert.showAndWait();
     }
 
-    /*@Override
-    public void initialize(URL url, ResourceBundle resourceBundle){
-        textFieldFirstName.setText("Bonjour");
-        System.out.println(textFieldFirstName.getText());
-    }*/
 
 
 

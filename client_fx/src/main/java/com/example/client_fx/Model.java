@@ -27,6 +27,7 @@ public class Model {
     private String cmd;
     private String args;
     private RegistrationForm registrationForm;
+    private String confirmationMessage = null; // confirmation message sent to user after trying to register for courses
 
 
     public Model () throws IOException {
@@ -58,28 +59,49 @@ public class Model {
         }
     }
 
-
-    public void createRegistrationForm() {
-
-    }
-
     public void registerForCourses(RegistrationForm registrationForm) {
-        System.out.println(registrationForm.toString()); // TODO
-    }
 
-    // checks if the course code is in the list of available courses for the semester
-    // if found, returns the corresponding Course object
-    public Course validateCourse(String courseCodeEntered) {
+        // send register command to server
+        this.cmd = Server.REGISTER_COMMAND;
+        this.args = registrationForm.getCourse().getSession();
 
-        for (Course course: this.courses) {
-            if (course.getCode().equals(courseCodeEntered)) {
-                return course;    // valid code for the semester
-            }
+        try {
+            objectOutputStream.writeObject(cmd + " " + args);
+            objectOutputStream.flush();
+            objectOutputStream.writeObject(registrationForm);
+            objectOutputStream.flush();
+        } catch(IOException e) {
+            e.printStackTrace();
         }
-
-        return null;    // invalid course for the semester
-
     }
+
+    public void setConfirmationMessage() {
+        try {
+            this.confirmationMessage = (String) objectInputStream.readObject();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public String getConfirmationMessage() {
+        return confirmationMessage;
+    }
+
+    // TODO validate email
+    public static boolean validateEmail(String input) {
+        String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
+        Pattern emailPattern = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = emailPattern.matcher(input);
+        return matcher.find();
+    }
+
+    public static boolean validateID(String input) {
+        String IDRegex = "^[0-9]{8}$";
+        Pattern IDPattern = Pattern.compile(IDRegex, Pattern.CASE_INSENSITIVE);
+        Matcher matcher = IDPattern.matcher(input);
+        return matcher.find();
+    }
+
 
     public void connect() { // connects to server
         try {
@@ -99,20 +121,6 @@ public class Model {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-
-    public static boolean validateEmail(String input) {
-        String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
-        Pattern emailPattern = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = emailPattern.matcher(input);
-        return matcher.find();
-    }
-
-    public static boolean validateID(String input) {
-        String IDRegex = "^[0-9]{8}$";
-        Pattern IDPattern = Pattern.compile(IDRegex, Pattern.CASE_INSENSITIVE);
-        Matcher matcher = IDPattern.matcher(input);
-        return matcher.find();
     }
 
 }
