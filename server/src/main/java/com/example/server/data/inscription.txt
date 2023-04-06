@@ -8,3 +8,7 @@ Hiver	IFT2125	12373334	Hihi	Marilou	mari@gmail.com
 Ete	IFT2256	12345678	Saoudi	Oumama	jayz59@gmail.com
 Hiver	IFT2125	12345678	Wassa	Joojoo	villeno@gmail.com
 Hiver	IFT2125	12345678	villeno	joujou	malli458@gmail.com
+Hiver	IFT1025	12345678	J	juicy	wassa79@gmail.com
+Hiver	IFT2125	12345678	walili	oussam	villo59@gmail.com
+Ete	IFT2256	12345678	lauzon	justin	monEmail@gmail.com
+Automne	IFT1227	12345678	auger	felix	pereno@gmail.com

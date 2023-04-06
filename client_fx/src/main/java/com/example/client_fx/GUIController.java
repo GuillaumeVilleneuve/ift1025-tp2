@@ -63,6 +63,7 @@ public class GUIController implements Initializable {
             listView.getItems().add(course.getCode() + "\t\t\t" + course.getName());
         }
 
+        // reconnects to server after being disconnected
         model.connect();
 
     }
@@ -89,11 +90,26 @@ public class GUIController implements Initializable {
         }
 
         // create and send registration form to model
-        registrationForm = new RegistrationForm(firstName, lastName, email, matricule, courseFound); //    TODO add course code
+        registrationForm = new RegistrationForm(firstName, lastName, email, matricule, courseFound); //
         model.registerForCourses(registrationForm);
 
-        // show confirmation message alert
-        printConfirmationMessage();
+        // if email entered is invalid
+        if (!model.getIsValidEmail()) {
+            alertEmailErrorMessage();
+        };
+
+        // if ID entered is invalid
+        if (!model.getIsValidID()) {
+            alertIDErrorMessage();
+        }
+
+        // if email and ID are valid, show confirmation message alert
+        if (model.getIsValidEmail() && model.getIsValidID()) {
+            printConfirmationMessage();
+        }
+
+        // reconnects to server after being disconnected
+        model.connect();
     }
 
     // returns the semester choice selected by the user from the choice box
@@ -101,12 +117,29 @@ public class GUIController implements Initializable {
         return this.choiceBox.getValue();
     }
 
+
+    public void alertEmailErrorMessage() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur email");
+        alert.setHeaderText("Il semble avoir une erreur dans votre email");
+        alert.setContentText("SVP veuillez entrer un email valide!");
+        alert.showAndWait();
+    }
+
+    public void alertIDErrorMessage() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur matricule");
+        alert.setHeaderText("Il semble avoir une erreur dans votre matricule");
+        alert.setContentText("SVP veuillez entrer un email matricule valide!");
+        alert.showAndWait();
+    }
+
     public void printConfirmationMessage() {
         model.setConfirmationMessage();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle("Confirmation d'inscription");
-        alert.setContentText(model.getConfirmationMessage());
         alert.setHeaderText("Information sur votre confirmation d'inscription");
+        alert.setContentText(model.getConfirmationMessage());
         alert.showAndWait();
     }
 

@@ -79,7 +79,14 @@ public class Server {
                 listen();
                 disconnect();
                 System.out.println("com.example.client_simple.Client déconnecté!");
-            } catch (Exception e) {
+            } catch(EOFException e) {
+                try {
+                    disconnect();
+                } catch (IOException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            catch (Exception e) {
                 e.printStackTrace();
             }
         }

@@ -19,7 +19,6 @@ public class Model {
 
     // attributes
     private Socket clientSocket;
-    private GUIController guiController;
     private ObjectOutputStream objectOutputStream;
 
     private ObjectInputStream objectInputStream;
@@ -28,6 +27,8 @@ public class Model {
     private String args;
     private RegistrationForm registrationForm;
     private String confirmationMessage = null; // confirmation message sent to user after trying to register for courses
+    private boolean validEmail;
+    private boolean validID;
 
 
     public Model () throws IOException {
@@ -65,6 +66,17 @@ public class Model {
         this.cmd = Server.REGISTER_COMMAND;
         this.args = registrationForm.getCourse().getSession();
 
+        // validate infos (
+        validateEmail(registrationForm.getEmail());
+        validateID(registrationForm.getMatricule());    // ID is the matricule of the student
+
+        // if the email or the id entered is invalid, will not write registrationForm object in socket
+        if (!validEmail || !validID) {
+            disconnect();
+            return;
+        }
+
+        // the email and id are valid -> writes registrationForm in socket
         try {
             objectOutputStream.writeObject(cmd + " " + args);
             objectOutputStream.flush();
@@ -87,21 +99,28 @@ public class Model {
         return confirmationMessage;
     }
 
-    // TODO validate email
-    public static boolean validateEmail(String input) {
+
+    public void validateEmail(String input) {
         String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
         Pattern emailPattern = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = emailPattern.matcher(input);
-        return matcher.find();
+        this.validEmail = matcher.find();
     }
 
-    public static boolean validateID(String input) {
+    public void validateID(String input) {
         String IDRegex = "^[0-9]{8}$";
         Pattern IDPattern = Pattern.compile(IDRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = IDPattern.matcher(input);
-        return matcher.find();
+        this.validID = matcher.find();
     }
 
+    public boolean getIsValidEmail() {
+        return validEmail;
+    }
+
+    public boolean getIsValidID() {
+        return validID;
+    }
 
     public void connect() { // connects to server
         try {
