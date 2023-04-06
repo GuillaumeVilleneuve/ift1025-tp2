@@ -26,6 +26,7 @@ public class Model {
     static ArrayList<Course> courses = null;
     private String cmd;
     private String args;
+    private RegistrationForm registrationForm;
 
 
     public Model () throws IOException {
@@ -57,8 +58,13 @@ public class Model {
         }
     }
 
-    public void registerForCourses() {
-        // TODO
+
+    public void createRegistrationForm() {
+
+    }
+
+    public void registerForCourses(RegistrationForm registrationForm) {
+        System.out.println(registrationForm.toString()); // TODO
     }
 
     // checks if the course code is in the list of available courses for the semester
