@@ -28,29 +28,14 @@ public class Model {
     private String args;
 
 
-    public Model (int port) throws IOException {
-        clientSocket = new Socket("127.0.0.1", port);
+    public Model () throws IOException {
+        connect();  // connects to server
     }
 
-    // TODO : should we put the content of the run command in the model constructor?
-    public void run() {
-
-        try {
-            objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
-            objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
-
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-    }
-
-
-
-    public void loadCourses() {
+    public void loadCourses(String semester) {
 
         cmd = Server.LOAD_COMMAND;
-        args = guiController.getSemesterChoice();
+        args = semester;
 
         try {
             objectOutputStream.writeObject(cmd + " " + args);
@@ -90,6 +75,16 @@ public class Model {
 
     }
 
+    public void connect() { // connects to server
+        try {
+            clientSocket = new Socket("127.0.0.1", 1337);
+            objectOutputStream = new ObjectOutputStream(clientSocket.getOutputStream());
+            objectInputStream = new ObjectInputStream(clientSocket.getInputStream());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
     public void disconnect() {
         try {
             objectOutputStream.close();

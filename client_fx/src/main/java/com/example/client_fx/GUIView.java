@@ -8,10 +8,13 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 
 public class GUIView extends Application {
+    // attributes
+
     @Override
     public void start(Stage stage) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("interface.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
+
 
         stage.setTitle("Inscription UDEM");
         stage.setScene(scene);
