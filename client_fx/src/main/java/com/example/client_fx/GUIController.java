@@ -2,9 +2,6 @@ package com.example.client_fx;
 
 import com.example.server.models.Course;
 import com.example.server.models.RegistrationForm;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -16,7 +13,6 @@ import javafx.scene.control.*;
 
 /**
  * controller in the MVC pattern
- *
  */
 public class GUIController implements Initializable {
 
@@ -29,10 +25,6 @@ public class GUIController implements Initializable {
     private TextField textFieldEmail;
     @FXML
     private TextField textFieldMatricule;
-    @FXML
-    private Button buttonInscription;
-    @FXML
-    private Button buttonCharger;
     @FXML
     private ChoiceBox<String> choiceBox;
     @FXML ListView<String> listView;
@@ -98,8 +90,16 @@ public class GUIController implements Initializable {
         String email = this.textFieldEmail.getText();
         String matricule = this.textFieldMatricule.getText();
 
-        MultipleSelectionModel<String> selectionModel = listView.getSelectionModel();
-        String[] courseCodeAndName = selectionModel.getSelectedItem().split("\t");
+        // exception thrown if user doesn't select a course and clicks on "envoyer"
+        String[] courseCodeAndName = null;
+        try {
+            MultipleSelectionModel<String> selectionModel = listView.getSelectionModel();
+            courseCodeAndName = selectionModel.getSelectedItem().split("\t");
+        } catch (NullPointerException ex) {
+            alertNoSelectedCourseErrorMessage();
+            model.disconnect();
+            return;
+        }
         String courseCode = courseCodeAndName[0];
 
         // finds the course selected in the list view in the arrayList of courses available for the semester
@@ -164,6 +164,18 @@ public class GUIController implements Initializable {
         alert.setContentText("SVP veuillez entrer un matricule valide! (8 chiffres)");
         alert.showAndWait();
     }
+
+    /**
+     * shows an alert error window whenever the user doesn't select a course to register before clicking on "envoyer"
+     */
+    public void alertNoSelectedCourseErrorMessage() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Erreur sélection du cours");
+        alert.setHeaderText("Erreur dans la sélection du cours");
+        alert.setContentText("Vous devez sélectionner un cours avant de cliquer sur envoyer!");
+        alert.showAndWait();
+    }
+
 
     /**
      * shows a confirmation message to user when the registration was succesful

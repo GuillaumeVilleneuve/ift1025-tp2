@@ -154,9 +154,13 @@ public class Server {
      */
     public void handleLoadCourses(String arg) {
 
+        // get the file paths
+        String pathOfProject = System.getProperty("user.dir");
+        String pathOfCours = pathOfProject + "/data/cours.txt";   // cours.txt file path
+
         // filter courses based on the semester
         try {
-            Scanner scan = new Scanner(new File("server/src/main/java/com/example/server/data/cours.txt"));
+            Scanner scan = new Scanner(new File(pathOfCours));
             ArrayList<Course> courses = new ArrayList<>();
 
             while (scan.hasNext()) {
@@ -191,6 +195,10 @@ public class Server {
     public void handleRegistration() {
         try {
 
+            // get the file paths
+            String pathOfProject = System.getProperty("user.dir");
+            String pathOfInscription = pathOfProject + "/data/inscription.txt"; // inscription.txt file path
+
             // retrieves RegistrationForm object
             RegistrationForm registrationForm = (RegistrationForm) objectInputStream.readObject();
 
@@ -203,8 +211,11 @@ public class Server {
                     registrationForm.getPrenom() + "\t" +
                     registrationForm.getEmail();
 
+            // get inscription.txt filePath
+
+
             // write content to inscription.txt
-            FileWriter fw = new FileWriter("server/src/main/java/com/example/server/data/inscription.txt", true);
+            FileWriter fw = new FileWriter(pathOfInscription, true);
             BufferedWriter writer = new BufferedWriter(fw);
             writer.write(inscription);
             writer.write("\n");

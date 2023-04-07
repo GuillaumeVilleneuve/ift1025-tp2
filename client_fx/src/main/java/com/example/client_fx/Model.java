@@ -25,8 +25,8 @@ public class Model {
     private String args;
     private RegistrationForm registrationForm;
     private String confirmationMessage = null; // confirmation message sent to user after trying to register for courses
-    private boolean validEmail;
-    private boolean validID;
+    private boolean isValidEmail;
+    private boolean isValidID;
 
     /**
      * constructor for the model class. Calls the connect method in order to connect to the server
@@ -84,7 +84,7 @@ public class Model {
         validateID(registrationForm.getMatricule());    // ID is the matricule of the student
 
         // if the email or the id entered is invalid, will not write registrationForm object in socket
-        if (!validEmail || !validID) {
+        if (!isValidEmail || !isValidID) {
             disconnect();
             return;
         }
@@ -127,7 +127,7 @@ public class Model {
         String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
         Pattern emailPattern = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = emailPattern.matcher(input);
-        this.validEmail = matcher.find();
+        this.isValidEmail = matcher.find();
     }
 
     /**
@@ -138,23 +138,23 @@ public class Model {
         String IDRegex = "^[0-9]{8}$";
         Pattern IDPattern = Pattern.compile(IDRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = IDPattern.matcher(input);
-        this.validID = matcher.find();
+        this.isValidID = matcher.find();
     }
 
     /**
-     * getter for the validEMail attribute
+     * getter for the isValidEmail attribute
      * @return
      */
     public boolean getIsValidEmail() {
-        return validEmail;
+        return isValidEmail;
     }
 
     /**
-     * getter for the validId attribute
+     * getter for the isValidID attribute
      * @return
      */
     public boolean getIsValidID() {
-        return validID;
+        return isValidID;
     }
 
     /**
