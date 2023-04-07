@@ -12,3 +12,7 @@ Hiver	IFT1025	12345678	J	juicy	wassa79@gmail.com
 Hiver	IFT2125	12345678	walili	oussam	villo59@gmail.com
 Ete	IFT2256	12345678	lauzon	justin	monEmail@gmail.com
 Automne	IFT1227	12345678	auger	felix	pereno@gmail.com
+Hiver	IFT1025	12345678	Messi	Wali	wali@gmail.com
+Hiver	IFT1025	69696969	Ashby	Lincoln	canichemini@maskatel.net
+Hiver	IFT1025	69696969	Ashby	Lincoln	canichemini@gmail.com
+Hiver	IFT1025	12356321	Vasconzalos	Rebeca	becabeca@hotmail.com

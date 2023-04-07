@@ -14,8 +14,10 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.scene.control.*;
 
-
-// previously implemented initializable
+/**
+ * controller in the MVC pattern
+ *
+ */
 public class GUIController implements Initializable {
 
     // attributes
@@ -38,6 +40,10 @@ public class GUIController implements Initializable {
     private Model model;
     private RegistrationForm registrationForm;    // current selection of the course in the list view
 
+
+    /**
+     *  constructor of the GUIController class
+     */
     public GUIController() {
         try {
             this.model = new Model();
@@ -46,11 +52,22 @@ public class GUIController implements Initializable {
         }
     }
 
+    /**
+     * initializes the elements of the choice box
+     *
+     * @param url passes the location of the FXML file that contains the controller
+     * @param resourceBundle used to pass a bundle of resources that can be used by the controller
+     */
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle){
         choiceBox.getItems().addAll(semesters);
     }
 
+    /**
+     * loads available courses for the semester
+     *
+     * @param e action event triggered when the user clicks on the "charger" button
+     */
     public void buttonChargerClicked(ActionEvent e) {
 
         listView.getItems().clear();
@@ -68,6 +85,11 @@ public class GUIController implements Initializable {
 
     }
 
+    /**
+     * registers the user for the selected course
+     *
+     * @param e event triggered when user clicks on the "envoyer" button
+     */
     public void buttonInscriptionClicked(ActionEvent e) {
 
         // get info entered by user
@@ -112,12 +134,18 @@ public class GUIController implements Initializable {
         model.connect();
     }
 
-    // returns the semester choice selected by the user from the choice box
+    /**
+     * returns the semester choice selected by the user from the choice box
+     *
+     * @return semester chosen
+     */
     public String getSemesterChoice() {
         return this.choiceBox.getValue();
     }
 
-
+    /**
+     * shows an alert error window whenever the user enters an invalid email
+     */
     public void alertEmailErrorMessage() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur email");
@@ -126,6 +154,9 @@ public class GUIController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * shows an alert error window whenever the user enters an invalid ID
+     */
     public void alertIDErrorMessage() {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur matricule");
@@ -134,6 +165,9 @@ public class GUIController implements Initializable {
         alert.showAndWait();
     }
 
+    /**
+     * shows a confirmation message to user when the registration was succesful
+     */
     public void printConfirmationMessage() {
         model.setConfirmationMessage();
         Alert alert = new Alert(Alert.AlertType.INFORMATION);

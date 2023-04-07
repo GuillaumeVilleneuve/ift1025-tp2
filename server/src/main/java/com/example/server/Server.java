@@ -13,16 +13,16 @@ import com.example.server.models.RegistrationForm;
 
 
 /**
- * com.example.server.Server class that handles the requests of students
+ * handles the requests of students that want to load courses and register for courses
  */
 public class Server {
 
     /**
-     * Register command that allows students to enrole to courses
+     * allows students to enroll for courses
      */
     public final static String REGISTER_COMMAND = "INSCRIRE";
     /**
-     * Load command to load courses that a student can enrole for
+     * load courses available for a semester
      */
     public final static String LOAD_COMMAND = "CHARGER";
     private final ServerSocket server;
@@ -32,7 +32,7 @@ public class Server {
     private final ArrayList<EventHandler> handlers;
 
     /**
-     * com.example.server.Server constructor
+     * Server constructor
      * Initializes the server socket, the handlers list and adds event handlers to the list.
      *
      * @param port the port of the server
@@ -45,7 +45,7 @@ public class Server {
     }
 
     /**
-     * appends events to be handled by the server
+     * adds events to be handled by the server
      *
      * @param h the new event added
      */
@@ -55,7 +55,7 @@ public class Server {
 
 
     /**
-     * TO DO
+     * alerts all handlers
      *
      * @param cmd the command passed by the user
      * @param arg the arguments of the command
@@ -67,7 +67,7 @@ public class Server {
     }
 
     /**
-     * runs the server
+     * runs the server. Listens to requests made by client. Disconnects client when done.
      */
     public void run() {
         while (true) {
@@ -94,8 +94,9 @@ public class Server {
 
     /**
      * Listens to client's requests
-     * @throws IOException Class of a serialized object cannot be found.
-     * @throws ClassNotFoundException Something is wrong with a class used by deserialization.
+     *
+     * @throws IOException Error when deserializing object
+     * @throws ClassNotFoundException Something is wrong with a class used by deserialization
      */
     public void listen() throws IOException, ClassNotFoundException {
         String line;
@@ -147,15 +148,7 @@ public class Server {
     }
 
     /**
-     Lire un fichier texte contenant des informations sur les cours et les transformer en liste d'objets 'Course'.
-     La méthode filtre les cours par la session spécifiée en argument.
-     Ensuite, elle renvoie la liste des cours pour une session au client en utilisant l'objet 'objectOutputStream'.
-     La méthode gère les exceptions si une erreur se produit lors de la lecture du fichier ou de l'écriture de l'objet dans le flux.
-     @param semester la session pour laquelle on veut récupérer la liste des cours
-     */
-
-    /**
-     * Returns information to the client about the available coures for a semester
+     * Returns information to the client about the available courses for a semester
      *
      * @param arg School semester
      */
@@ -192,14 +185,8 @@ public class Server {
     }
 
     /**
-     Récupérer l'objet 'RegistrationForm' envoyé par le client en utilisant 'objectInputStream', l'enregistrer dans un fichier texte
-     et renvoyer un message de confirmation au client.
-     La méthode gére les exceptions si une erreur se produit lors de la lecture de l'objet, l'écriture dans un fichier ou dans le flux de sortie.
-     */
-
-    /**
      * Handles the client's registration. Saves it in the file inscription.txt
-     * returns a confirmation message
+     * Returns a confirmation message saying telling the user that the registration for classes was successful
      */
     public void handleRegistration() {
         try {
@@ -229,10 +216,10 @@ public class Server {
             objectOutputStream.close();
 
         } catch (ClassNotFoundException e) {
-            System.out.println("Registration form object not found in the program"); // TODO
+            System.out.println("Registration form object not found in the program");
         }
         catch (IOException e){
-            System.out.println("Error while reading or writing to file"); // TODO
+            System.out.println("Error while reading or writing to file");
         }
     }
 }
