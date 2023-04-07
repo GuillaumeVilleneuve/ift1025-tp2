@@ -161,7 +161,7 @@ public class GUIController implements Initializable {
         Alert alert = new Alert(Alert.AlertType.ERROR);
         alert.setTitle("Erreur matricule");
         alert.setHeaderText("Il semble avoir une erreur dans votre matricule");
-        alert.setContentText("SVP veuillez entrer un email matricule valide!");
+        alert.setContentText("SVP veuillez entrer un matricule valide! (8 chiffres)");
         alert.showAndWait();
     }
 
