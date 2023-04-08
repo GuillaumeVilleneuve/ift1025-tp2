@@ -79,16 +79,6 @@ public class Model {
         this.cmd = Server.REGISTER_COMMAND;
         this.args = registrationForm.getCourse().getSession();
 
-        // validate infos (
-        validateEmail(registrationForm.getEmail());
-        validateID(registrationForm.getMatricule());    // ID is the matricule of the student
-
-        // if the email or the id entered is invalid, will not write registrationForm object in socket
-        if (!isValidEmail || !isValidID) {
-            disconnect();
-            return;
-        }
-
         // the email and id are valid -> writes registrationForm in socket
         try {
             objectOutputStream.writeObject(cmd + " " + args);
@@ -123,22 +113,22 @@ public class Model {
      * validates email by assuring that the user input respects the conventional email format
      * @param input email entered by the user
      */
-    public void validateEmail(String input) {
+    public boolean validateEmail(String input) {
         String emailRegex = "^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$";
         Pattern emailPattern = Pattern.compile(emailRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = emailPattern.matcher(input);
-        this.isValidEmail = matcher.find();
+        return matcher.find();
     }
 
     /**
      * validates ID by assuring that the user input respects the conventional ID format (8 digits)
      * @param input ID entered by user
      */
-    public void validateID(String input) {
+    public boolean validateID(String input) {
         String IDRegex = "^[0-9]{8}$";
         Pattern IDPattern = Pattern.compile(IDRegex, Pattern.CASE_INSENSITIVE);
         Matcher matcher = IDPattern.matcher(input);
-        this.isValidID = matcher.find();
+        return matcher.find();
     }
 
     /**

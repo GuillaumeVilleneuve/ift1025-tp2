@@ -30,7 +30,7 @@ public class GUIView extends Application {
         stage.setTitle("Inscription UDEM");
         stage.setScene(scene);
         stage.initStyle(StageStyle.DECORATED);
-        stage.setResizable(true);
+        stage.setResizable(false);  // resizing window option disabled
 
         stage.show();
     }

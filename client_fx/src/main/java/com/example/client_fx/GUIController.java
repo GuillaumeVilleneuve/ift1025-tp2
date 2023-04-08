@@ -93,45 +93,48 @@ public class GUIController implements Initializable {
         // exception thrown if user doesn't select a course and clicks on "envoyer"
         String[] courseCodeAndName = null;
         try {
+
             MultipleSelectionModel<String> selectionModel = listView.getSelectionModel();
             courseCodeAndName = selectionModel.getSelectedItem().split("\t");
-        } catch (NullPointerException ex) {
-            alertNoSelectedCourseErrorMessage();
-            model.disconnect();
-            return;
-        }
-        String courseCode = courseCodeAndName[0];
+            String courseCode = courseCodeAndName[0];
 
-        // finds the course selected in the list view in the arrayList of courses available for the semester
-        Course courseFound = null;
-        for (Course course: Model.courses) {
-            if (course.getCode().equals(courseCode)) {
-                courseFound = course;
-                break;
+            // finds the course selected in the list view in the arrayList of courses available for the semester
+            // might throw null pointer exception if no course is selected by user
+            Course courseFound = null;
+            for (Course course: Model.courses) {
+                if (course.getCode().equals(courseCode)) {
+                    courseFound = course;
+                    break;
+                }
             }
-        }
 
-        // create and send registration form to model
-        registrationForm = new RegistrationForm(firstName, lastName, email, matricule, courseFound); //
-        model.registerForCourses(registrationForm);
+            // if email entered is invalid
+            if (!model.validateEmail(email)) {
+                alertEmailErrorMessage();
+                throw new IllegalArgumentException();
+            }
 
-        // if email entered is invalid
-        if (!model.getIsValidEmail()) {
-            alertEmailErrorMessage();
-        };
+            // if ID entered is invalid
+            if (!model.validateID(matricule)) {
+                alertIDErrorMessage();
+                throw new IllegalArgumentException();
+            }
 
-        // if ID entered is invalid
-        if (!model.getIsValidID()) {
-            alertIDErrorMessage();
-        }
+            // create and send registration form to model iff no error thrown
+            registrationForm = new RegistrationForm(firstName, lastName, email, matricule, courseFound); //
+            model.registerForCourses(registrationForm);
 
-        // if email and ID are valid, show confirmation message alert
-        if (model.getIsValidEmail() && model.getIsValidID()) {
+            // will show confirmation message if and only if there were no errors thrown
             printConfirmationMessage();
-        }
 
-        // reconnects to server after being disconnected
-        model.connect();
+            // reconnects to server after being disconnect
+            model.connect();
+
+        } catch (IllegalArgumentException exInvalidEmail) {
+            System.out.println("Invalid email or ID");
+        } catch (NullPointerException exNoSelection) {
+            alertNoSelectedCourseErrorMessage();
+        }
     }
 
     /**
