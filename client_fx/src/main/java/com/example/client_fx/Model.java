@@ -23,10 +23,7 @@ public class Model {
     static ArrayList<Course> courses = null;
     private String cmd;
     private String args;
-    private RegistrationForm registrationForm;
     private String confirmationMessage = null; // confirmation message sent to user after trying to register for courses
-    private boolean isValidEmail;
-    private boolean isValidID;
 
     /**
      * constructor for the model class. Calls the connect method in order to connect to the server
@@ -131,21 +128,6 @@ public class Model {
         return matcher.find();
     }
 
-    /**
-     * getter for the isValidEmail attribute
-     * @return
-     */
-    public boolean getIsValidEmail() {
-        return isValidEmail;
-    }
-
-    /**
-     * getter for the isValidID attribute
-     * @return
-     */
-    public boolean getIsValidID() {
-        return isValidID;
-    }
 
     /**
      * connects the client to the server
