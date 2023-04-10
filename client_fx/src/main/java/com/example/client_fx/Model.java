@@ -143,17 +143,4 @@ public class Model {
         }
     }
 
-    /**
-     * disconnect client from server
-     */
-    public void disconnect() {
-        try {
-            objectOutputStream.close();
-            objectInputStream.close();
-            clientSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
 }

@@ -50,30 +50,40 @@ public class Client {
             displayCoursesMenu();
         }
 
+
         else {
-            // 2nd, asks user to choose between displaying the courses of another semester or register for a course
-            System.out.println("> Choix:");
-            System.out.println("1. Consulter les cours offerts pour une autre session");
-            System.out.println("2. Inscription à un cours");
 
-            Scanner scanner = new Scanner(System.in);
-            String userInput = scanner.nextLine();
-            System.out.println("> Choix: " + userInput);
+            boolean validChoice;  // will be set to false if choice is invalid
 
-            switch (userInput) {
-                case "1": {
-                    displayCoursesMenu();
-                    break;
+            do {
+                validChoice = true;
+
+                // 2nd, asks user to choose between displaying the courses of another semester or register for a course
+                System.out.println("> Choix:");
+                System.out.println("1. Consulter les cours offerts pour une autre session");
+                System.out.println("2. Inscription à un cours");
+
+                Scanner scanner = new Scanner(System.in);
+                String userInput = scanner.nextLine();
+                System.out.println("> Choix: " + userInput);
+
+                switch (userInput) {
+                    case "1": {
+                        displayCoursesMenu();
+                        break;
+                    }
+                    case "2": {
+                        registerForCourses();
+                        break;
+                    }
+                    default: {
+                        System.out.println("Choix invalide. Veuillez choisir parmi les choix disponibles");
+                        validChoice = false;
+                    }
                 }
-                case "2": {
-                    registerForCourses();
-                    break;
-                }
-                default: {
-                    System.out.println("Choix invalide. Veuillez choisir parmi les choix disponibles");
-                    disconnect();
-                }
-            }
+
+            } while (!validChoice);
+
         }
 
     }
@@ -201,16 +211,22 @@ public class Client {
 
 
         // ensures that the entered course is offered for the specified semester
-        System.out.println("Veuillez saisir le code du cours");
-        String courseCodeEntered = scanner.nextLine();
-        Course course = validateCourse(courseCodeEntered);
+        boolean validChoice;
+        Course course;
+        do {
+            validChoice = true;
+            System.out.println("Veuillez saisir le code du cours");
+            String courseCodeEntered = scanner.nextLine();
+            course = validateCourse(courseCodeEntered);
 
-        if (course == null) {   // invalid code for the semester
-            System.out.println("Ce cours n'est pas disponible pour ce trimestre");
-            System.out.println("Échec de l'inscription");
-            disconnect();
+            if (course == null) {   // invalid code for the semester
+                System.out.println("Ce cours n'est pas disponible pour ce trimestre");
+                System.out.println("Échec de l'inscription");
+                validChoice = false;
+            }
+        } while (!validChoice);
 
-        } else {    // valid course for the semester
+            // creates a registration form when all inputs are valid
             RegistrationForm registrationForm = new RegistrationForm(prenom, nom, email, matricule, course);
 
             try {
@@ -231,7 +247,6 @@ public class Client {
                 throw new RuntimeException(e);
             }
         }
-    }
 
     // checks if the course code is in the list of available courses for the semester
     // if found, returns the corresponding Course object
@@ -244,17 +259,6 @@ public class Client {
         }
 
         return null;    // invalid course for the semester
-
-    }
-
-    public void disconnect() {
-        try {
-            objectOutputStream.close();
-            objectInputStream.close();
-            clientSocket.close();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     public static boolean validateEmail(String input) {

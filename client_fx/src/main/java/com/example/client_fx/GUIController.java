@@ -30,7 +30,7 @@ public class GUIController implements Initializable {
     @FXML ListView<String> listView;
     private String[] semesters = {"Automne", "Hiver", "Ete"};
     private Model model;
-    private RegistrationForm registrationForm;    // current selection of the course in the list view
+    private RegistrationForm registrationForm;
 
 
     /**
@@ -62,9 +62,11 @@ public class GUIController implements Initializable {
      */
     public void buttonChargerClicked(ActionEvent e) {
 
+        // clears elements in the listView to make sure that only courses of the selected semester are displayed
         listView.getItems().clear();
 
-        model.loadCourses(getSemesterChoice());
+        // get available courses for the selected semester
+        model.loadCourses(this.choiceBox.getValue());
         model.getAvailableCourses();
 
         // add course info to list view
@@ -99,7 +101,7 @@ public class GUIController implements Initializable {
             String courseCode = courseCodeAndName[0];
 
             // finds the course selected in the list view in the arrayList of courses available for the semester
-            // might throw null pointer exception if no course is selected by user
+            // will throw null pointer exception if no course is selected by user
             Course courseFound = null;
             for (Course course: Model.courses) {
                 if (course.getCode().equals(courseCode)) {
@@ -120,30 +122,22 @@ public class GUIController implements Initializable {
                 throw new IllegalArgumentException();
             }
 
-            // create and send registration form to model iff no error thrown
+            // create and send registration form to model if and only if no error thrown
             registrationForm = new RegistrationForm(firstName, lastName, email, matricule, courseFound); //
             model.registerForCourses(registrationForm);
 
             // will show confirmation message if and only if there were no errors thrown
             printConfirmationMessage();
 
-            // reconnects to server after being disconnect
+            // reconnects to server after being disconnected
             model.connect();
 
         } catch (IllegalArgumentException exInvalidEmail) {
             System.out.println("Invalid email or ID");
         } catch (NullPointerException exNoSelection) {
+            System.out.println("No course selected");
             alertNoSelectedCourseErrorMessage();
         }
-    }
-
-    /**
-     * returns the semester choice selected by the user from the choice box
-     *
-     * @return semester chosen
-     */
-    public String getSemesterChoice() {
-        return this.choiceBox.getValue();
     }
 
     /**

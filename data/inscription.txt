@@ -33,3 +33,7 @@ Automne	IFT2255	12345678	Villeneuve	Justin	vilklen@gmail.com
 Hiver	IFT2125	12567885	Vi	Ju	geez@gmail.com
 Hiver	IFT1025	12567885	Vi	Ju	geez@gmail.com
 Automne	IFT1015	12567885	Vi	Ju	geez@gmail.com
+Hiver	IFT2125	12345678	Subban	Pk	canadiens@umontreal.ca
+Hiver	IFT2125	23456789	Coucou	Kiki	sami@umontreal.ca
+Hiver	IFT1025	12345678	Vi	Jus	villeneuve_99@hotmail.com
+Hiver	IFT2125	12345678	Villeneuve	Justin	villeneuve_9@hotmail.com

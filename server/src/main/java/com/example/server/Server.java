@@ -79,14 +79,7 @@ public class Server {
                 listen();
                 disconnect();
                 System.out.println("com.example.client_simple.Client déconnecté!");
-            } catch(EOFException e) {
-                try {
-                    disconnect();
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
-            }
-            catch (Exception e) {
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -202,7 +195,6 @@ public class Server {
             // retrieves RegistrationForm object
             RegistrationForm registrationForm = (RegistrationForm) objectInputStream.readObject();
 
-
             // formats the text to write to inscription.txt
             String inscription = registrationForm.getCourse().getSession() + "\t" +
                     registrationForm.getCourse().getCode() + "\t" +
@@ -210,9 +202,6 @@ public class Server {
                     registrationForm.getNom() + "\t" +
                     registrationForm.getPrenom() + "\t" +
                     registrationForm.getEmail();
-
-            // get inscription.txt filePath
-
 
             // write content to inscription.txt
             FileWriter fw = new FileWriter(pathOfInscription, true);
